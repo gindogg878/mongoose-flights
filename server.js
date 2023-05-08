@@ -4,6 +4,8 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 const db = require("./config/database");
 const Flight = require("./models/flight");
+const MO = require("method-override");
+const Destination = require("./models/destination");
 
 // View Engine Middleware Configure
 const reactViewsEngine = require("jsx-view-engine").createEngine();
@@ -15,6 +17,8 @@ app.set("views", "./views");
 
 // Custom Middleware
 app.use(express.urlencoded({ extended: false }));
+
+app.use(MO("_method"));
 
 // I.N.D.U.C.E.S
 //index route//
@@ -42,11 +46,46 @@ app.post("/flights", async (req, res) => {
   }
 });
 
+//Update route
+app.put("/flights/:id", async (req, res) => {
+  try {
+    const updatetFlight = await Flight.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.redirect(`flight/${req.params.id}`, {
+      flight: editFlight,
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //Show route
 app.get("/flights/:id", async (req, res) => {
   try {
-    const newFlight = await Flight.findById(req.params.id);
+    const newFlight = await Flight.findById(req.params.id).populate(
+      "destinations"
+    );
     res.render("Show", { Flight: newFlight });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+//induces destinations
+//Create
+app.post("/destinations/:id", async (req, res) => {
+  try {
+    const newDestination = await Destination.create(req.body);
+
+    const updatedFlight = await Flight.findByIdAndUpdate(
+      req.params.id,
+      { $addToSet: { destinations: newDestination._id } },
+      { new: true }
+    );
+    res.redirect(`/flights/${req.params.id}`);
   } catch (err) {
     res.status(400).send(err);
   }

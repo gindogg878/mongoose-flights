@@ -15,7 +15,9 @@ class Index extends React.Component {
                 <br />
                 {flights.flightNo}
                 <br />
-                {flights.departs}
+                {flights.departs.toISOString().slice(0, 16)}
+                <br />
+                {flights.airport}
                 <br />
                 <a href={`/flights/${flights._id}`}>Details</a>
                 <br />
