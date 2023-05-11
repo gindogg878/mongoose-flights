@@ -1,27 +1,27 @@
 const React = require("react");
+const DefaultLayout = require("./layout/Default");
 
 class Show extends React.Component {
   render() {
     const flight = this.props.Flight;
-
     return (
-      <div>
-        <h1>Flight Details </h1>
-        <h2>{flight.airline}</h2>
+      <DefaultLayout title="Destination Details" link="/flights" text="Home">
+        <h2>Airline: {flight.airline}</h2>
         <br />
-        <h2>{flight.flightNo}</h2>
+        <h2>Flight Number: {flight.flightNo}</h2>
         <br />
-        <h2>{flight.departs.toISOString().slice(0, 16)}</h2>
+        <h2>Departure Date: {flight.departs.toISOString().slice(0, 16)}</h2>
         <br />
-        <h2>{flight.airport}</h2>
+        <h2>Departing From: {flight.airport}</h2>
         <h2>
           Destination Airport:
           {flight.destinations.map((destination, i) => {
             return (
-              <h2>
-                {destination.airport}{" "}
-                {destination.arrival.toISOString().slice(0, 16)}
-              </h2>
+              <div key={i}>
+                <h5>{destination.airport}</h5>
+                <br />
+                <h5>{destination.arrival.toISOString().slice(0, 16)}</h5>
+              </div>
             );
           })}
         </h2>
@@ -34,11 +34,11 @@ class Show extends React.Component {
             <option value="SAN">SAN</option>
             <option value="SEA">SEA</option>
           </select>
-          Add Date: <input type="datetime-local" name="departure" />
+          <br />
+          Add Date: <input type="datetime-local" name="arrival" />
           <input type="submit" value="submit" />
         </form>
-        <a href="/flights">Flights Page</a>
-      </div>
+      </DefaultLayout>
     );
   }
 }

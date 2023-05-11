@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(MO("_method"));
 
+//accessing static files from public folder like css, imgs, fonts
+app.use(express.static("public"));
+
 // I.N.D.U.C.E.S
 //index route//
 app.get("/flights", async (req, res) => {

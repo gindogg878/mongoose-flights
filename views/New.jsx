@@ -1,10 +1,10 @@
 const React = require("react");
+const DefaultLayout = require("./layout/Default");
 
 class New extends React.Component {
   render() {
     return (
-      <div>
-        <h1>Create New Flight</h1>
+      <DefaultLayout title="Create Flight" link="/flights" text="Home">
         <form action="/flights" method="POST">
           Airline:
           <input type="radio" id="American" value="American" name="airline" />
@@ -15,7 +15,7 @@ class New extends React.Component {
           <label>United</label>
           <br />
           Add Flight No: <input type="text" name="flightNo" /> <br />
-          Add Date: <input type="datetime-local" name="departure" />
+          Add Date: <input type="datetime-local" name="departs" />
           <br />
           <label>Choose Airport</label>
           <select name="airport">
@@ -31,7 +31,7 @@ class New extends React.Component {
           <input type="submit" value="Create Flight" />
         </form>
         <br />
-      </div>
+      </DefaultLayout>
     );
   }
 }

@@ -16,5 +16,3 @@ const flightSchema = new Schema({
 const Flight = model("Flight", flightSchema);
 
 module.exports = Flight;
-
-// default: Date.now() + 365 * 24 * 60 * 60 * 1000 },
